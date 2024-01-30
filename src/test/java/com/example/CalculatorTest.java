@@ -94,4 +94,11 @@ class CalculatorTest {
         assertEquals(6, sum);
     }
 
+    @Test
+    @DisplayName("when given multiple diameters with length longer than one char, when added, then return correct sum")
+    void whenGivenMultipleDiametersWithLengthLongerThanOneCharWhenAddedThenReturnCorrectSum() {
+        Calculator calculator = new Calculator( "//2,3;;;2");
+        int sum = calculator.addNumbers();
+        assertEquals(7, sum);
+    }
 }
