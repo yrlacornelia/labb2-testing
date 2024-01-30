@@ -21,5 +21,11 @@ class CalculatorTest {
         int sum = calculator.addNumbers();
         assertEquals(0, sum );
     }
-
+    @Test
+    @DisplayName("Given an unknown amount of numbers, when adding, return the correct sum")
+    void givenAnUnknownAmountOfNumbersWhenAddingReturnTheCorrectSum() {
+        Calculator calculator = new Calculator( "3,10,5,2,6");
+        int sum = calculator.addNumbers();
+        assertEquals(26, sum );
+    }
 }
