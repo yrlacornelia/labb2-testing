@@ -34,6 +34,9 @@ public class Calculator {
         int sum = 0;
         List<String> negatives = new ArrayList<>();
         for (String num : numArray) {
+            if(num.length() >= 4) {
+                num = "0";
+            }
             try {
                 int parsedNum = Integer.parseInt(num);
                 if (parsedNum >= 0) {

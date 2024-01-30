@@ -70,4 +70,12 @@ class CalculatorTest {
             fail("Unexpected exception thrown: " + e.getMessage());
         }
     }
+
+    @Test
+    @DisplayName("GivenLargeNumberWhenAddedThenDontReturn")
+    void givenLargeNumberWhenAddedThenDontReturn() {
+        Calculator calculator = new Calculator( "1003,5");
+        int sum = calculator.addNumbers();
+        assertEquals(5, sum);
+    }
 }
