@@ -3,6 +3,9 @@ package com.example;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CalculatorTest {
@@ -35,5 +38,36 @@ class CalculatorTest {
         Calculator calculator = new Calculator( "//;\n1;2");
         int sum = calculator.addNumbers();
         assertEquals(3, sum);
+    }
+    @Test
+    public void testAddNumbersWithNegativeNumber() {
+        Calculator calculator = new Calculator("-5,2,3");
+        try {
+            int result = calculator.addNumbers();
+            fail("Expected IllegalArgumentException but got result: " + result);
+        } catch (IllegalArgumentException e) {
+            assertEquals("Negatives not allowed: -5", e.getMessage());
+        }
+    }
+    @Test
+    @DisplayName("Given negative number, when passed, then throw exception")
+    void givenNegativeNumberWhenPassedThenThrowException() {
+        Calculator calculator = new Calculator( "2, -8");
+        try {
+            calculator.addNumbers();
+            fail("Expected exception not thrown");
+        } catch (IllegalArgumentException e) {
+            assertEquals("Negatives not allowed:  -8", e.getMessage());
+        }
+    }
+    @Test
+    void givenPositiveNumbersWhenPassedThenNoException() {
+        Calculator calculator = new Calculator("0,8");
+        try {
+            int result = calculator.addNumbers();
+            assertEquals(8, result, "Sum of positive numbers should be 10");
+        } catch (IllegalArgumentException e) {
+            fail("Unexpected exception thrown: " + e.getMessage());
+        }
     }
 }
