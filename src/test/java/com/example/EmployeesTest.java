@@ -1,52 +1,67 @@
 package com.example;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
 class EmployeesTest {
 
-    @InjectMocks
-    private Employees component;
-
-    @Mock
     private EmployeeRepository employeeRepository;
+    private BankserviceTd bankServiceStub;
+    private Employees employees;
 
     @Mock
-    private BankService bankService;
+            BankService bankService;
 
+    EmployeesTest() {
+    }
+
+
+    @BeforeEach
+    void setUp() {
+        employeeRepository = mock(EmployeeRepository.class);
+        bankServiceStub = new BankserviceTd();
+        employees = new Employees(employeeRepository, bankServiceStub);
+
+    }
     @Test
     public void givenOneEmployee_whenPayingEmployee_thenReturnTrue() {
         List<Employee> employeesList = new ArrayList<>();
-        Employee employee1 = new Employee("1", 1000);
-        employeesList.add(employee1);
+      bankServiceStub.setShouldThrowException(false);
+        employeesList.add(new Employee("1", 1000));
         when(employeeRepository.findAll()).thenReturn(employeesList);
-        doNothing().when(bankService).pay(eq("1"), eq(1000.0));
-        int payments = component.payEmployees();
+        int payments = employees.payEmployees();
         assertEquals(1, payments);
-        assertTrue(employee1.isPaid());
+        assertTrue(employeesList.get(0).isPaid());
     }
 
+
     @Test
-    public void givenEmployeesExist_whenNotPaying_thenReturnFalse() {
-        List<Employee> employeesList = new ArrayList<>();
-        Employee employee2 = new Employee("2", 1500);
-        employeesList.add(employee2);
-        when(employeeRepository.findAll()).thenReturn(employeesList);
-        doThrow(new RuntimeException("Payment failed")).when(bankService).pay(eq("2"), eq(1500.0));
-        int payments = component.payEmployees();
-        assertEquals(0, payments);
-        assertFalse(employee2.isPaid());
+    @DisplayName("Payment not successful")
+    void paymentNotSuccessfulWhenBankMethodStubDoesNotThrowException() {
+
+        List<Employee> employeeList = Arrays.asList(
+                new Employee("1", 25000.0),
+                new Employee("2", 30000.0)
+        );
+
+        when(employeeRepository.findAll()).thenReturn(employeeList);
+        bankServiceStub.setShouldThrowException(true);
+
+        employees.payEmployees();
+
+
+        for (Employee employee : employeeList) {
+            assertFalse(employee.isPaid());
+        }
     }
 
 }
