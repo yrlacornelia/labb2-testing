@@ -17,14 +17,6 @@ class EmployeesTest {
     private EmployeeRepository employeeRepository;
     private BankserviceTd bankServiceStub;
     private Employees employees;
-
-    @Mock
-            BankService bankService;
-
-    EmployeesTest() {
-    }
-
-
     @BeforeEach
     void setUp() {
         employeeRepository = mock(EmployeeRepository.class);
@@ -57,7 +49,6 @@ class EmployeesTest {
         bankServiceStub.setShouldThrowException(true);
 
         employees.payEmployees();
-
 
         for (Employee employee : employeeList) {
             assertFalse(employee.isPaid());
