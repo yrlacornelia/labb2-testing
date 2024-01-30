@@ -86,4 +86,12 @@ class CalculatorTest {
         assertEquals(6, sum);
     }
 
+    @Test
+    @DisplayName("when given multiple diameters, when added, Then return correct sum")
+    void whenGivenMultipleDiametersWhenAddedThenReturnCorrectSum() {
+        Calculator calculator = new Calculator( "//[*][%]\n1*2%3");
+        int sum = calculator.addNumbers();
+        assertEquals(6, sum);
+    }
+
 }
