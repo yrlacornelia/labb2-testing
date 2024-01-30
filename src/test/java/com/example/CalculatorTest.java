@@ -78,4 +78,12 @@ class CalculatorTest {
         int sum = calculator.addNumbers();
         assertEquals(5, sum);
     }
+    @Test
+    @DisplayName("When Given delimiters of any length, When add, Then return correct sum ")
+    void whenGivenMultipleDelimitersThen() {
+        Calculator calculator = new Calculator( "//[***]\n1***2***3");
+        int sum = calculator.addNumbers();
+        assertEquals(6, sum);
+    }
+
 }
