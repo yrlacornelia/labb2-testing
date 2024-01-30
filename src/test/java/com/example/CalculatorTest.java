@@ -28,4 +28,11 @@ class CalculatorTest {
         int sum = calculator.addNumbers();
         assertEquals(26, sum );
     }
+    @Test
+    @DisplayName("Given numbers seperated with new line, when adding, return the correct sum")
+    void givenNumbersSeperatedWithNewLineWhenAddingReturnTheCorrectSum() {
+        Calculator calculator = new Calculator("1\n2,3");
+        int sum = calculator.addNumbers();
+        assertEquals(6, sum);
+    }
 }

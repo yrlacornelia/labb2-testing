@@ -11,9 +11,9 @@ public class Calculator {
         if (numbers.isEmpty()) {
             return 0;
         }
-
+        String delimiter = "[,\n]";
         int sum = 0;
-        String[] numArray = numbers.split(",");
+        String[] numArray = numbers.split(delimiter);
         for (String num : numArray) {
             int parsedNum = Integer.parseInt(num);
             sum += parsedNum;
